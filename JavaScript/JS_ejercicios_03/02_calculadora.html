@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora</title>
+    <link rel="stylesheet" href="02_calculadora.css">
+</head>
+<body>
+    <div class="calculadora">
+        <div class="display">
+            <div class="operacion-actual" id="operacionActual"></div>
+            <input type="text" class="pantalla" id="pantalla" readonly>
+        </div>
+        
+        <div class="botones">
+            <!-- Primera fila -->
+            <button class="boton limpiar" id="limpiar">C</button>
+            <button class="boton operacion" id="dividir">÷</button>
+            
+            <!-- Segunda fila -->
+            <button class="boton numero" id="7">7</button>
+            <button class="boton numero" id="8">8</button>
+            <button class="boton numero" id="9">9</button>
+            <button class="boton operacion" id="multiplicar">×</button>
+            
+            <!-- Tercera fila -->
+            <button class="boton numero" id="4">4</button>
+            <button class="boton numero" id="5">5</button>
+            <button class="boton numero" id="6">6</button>
+            <button class="boton operacion" id="restar">-</button>
+            
+            <!-- Cuarta fila -->
+            <button class="boton numero" id="1">1</button>
+            <button class="boton numero" id="2">2</button>
+            <button class="boton numero" id="3">3</button>
+            <button class="boton operacion" id="sumar">+</button>
+            
+            <!-- Quinta fila -->
+            <button class="boton numero cero" id="0">0</button>
+            <button class="boton operacion" id="igual">=</button>
+        </div>
+    </div>
+
+    <script>
+        // Declaramos los elementos del DOM necesarios para la calculadora.
+        const pantalla = document.getElementById('pantalla');
+        const operacionDisplay = document.getElementById('operacionActual');
+        const btnNumeros = document.querySelectorAll('.boton.numero');
+        const btnOperaciones = document.querySelectorAll('.boton.operacion');
+        const btnLimpiar = document.getElementById('limpiar');
+        const btnIgual = document.getElementById('igual');
+        
+        // Inicializamos las variables para almacenar la operacion, los números y el resultado
+        let operacionActual = '';
+        let numero1 = '';
+        let numero2 = '';
+        let resultado = '';
+        let operacion = '';
+
+        // Función para actualizar el display de la operación
+        function actualizarDisplayOperacion() {
+            if (numero1 !== '' && operacion !== '') {
+                const simboloOperacion = operacion === '+' ? '+' :
+                                       operacion === '-' ? '-' :
+                                       operacion === '*' ? '×' :
+                                       operacion === '/' ? '÷' : '';
+                
+                if (operacionActual !== '') {
+                    // Mostramos la operación completa
+                    operacionDisplay.textContent = `${numero1} ${simboloOperacion} ${operacionActual}`;
+                } else {
+                    // Solo mostramos el primer número y la operación
+                    operacionDisplay.textContent = `${numero1} ${simboloOperacion}`;
+                }
+            } else if (numero1 !== '' && operacion === '' && resultado !== '') {
+                // Después de un cálculo, mostramos la operación completa que se realizó
+                operacionDisplay.textContent = `${numero1} ${getSimboloOperacion(operacion)} ${numero2} =`;
+            } else {
+                operacionDisplay.textContent = '';
+            }
+        }
+
+        function getSimboloOperacion(op) {
+            return op === '+' ? '+' :
+                   op === '-' ? '-' :
+                   op === '*' ? '×' :
+                   op === '/' ? '÷' : '';
+        }
+
+        // Variable para controlar si acabamos de completar una operación
+        let operacionCompletada = false;
+
+        // Añadimos los eventos a los botones de números y operaciones
+        btnNumeros.forEach(boton => {
+            boton.addEventListener('click', () => {
+                //Comprobamos que el primer digito no sea 0.
+                if(boton.id === '0' && operacionActual === '') {
+                    return;
+                }
+                
+                // Si acabamos de completar una operación y pulsamos un número, empezamos nueva operación
+                if (operacionCompletada) {
+                    numero1 = '';
+                    numero2 = '';
+                    resultado = '';
+                    operacion = '';
+                    operacionActual = '';
+                    operacionDisplay.textContent = '';
+                    operacionCompletada = false;
+                }
+                
+                operacionActual += boton.id;
+                pantalla.value = operacionActual;
+                actualizarDisplayOperacion();
+            });
+        });
+
+        // Si no hay una operación en curso, guardamos el primer número.
+        // Actualizamos la pantalla con el número y la operación actual.
+        btnOperaciones.forEach(boton => {
+            boton.addEventListener('click', () => {
+               if (boton.id !== 'igual') {
+                    // Si acabamos de completar una operación, podemos continuar con el resultado
+                    if (operacionCompletada) {
+                        operacionCompletada = false;
+                        // numero1 ya tiene el resultado, solo necesitamos la nueva operación
+                    }
+                    // Si ya hay una operación pendiente, mostramos mensaje y detenemos el flujo
+                    else if (operacion !== '' && operacionActual === '') {
+                        alert('Para realizar otra operación, debe finalizar la primera operación');
+                        return;
+                    }
+                    
+                    // Si hay una operación pendiente y hay un segundo número, calculamos primero
+                    if (operacion !== '' && operacionActual !== '') {
+                        numero2 = operacionActual;
+                        resultado = calcular(numero1, numero2, operacion);
+                        numero1 = resultado.toString();
+                        pantalla.value = resultado;
+                    }
+                    // Si hay número escrito y no hay operación previa, lo guardamos en numero1
+                    else if (operacionActual !== '' && !operacionCompletada) {
+                        numero1 = operacionActual;
+                    }
+                    
+                    // Asignamos la nueva operación según el id del botón
+                    operacion = boton.id === 'sumar' ? '+' :
+                                boton.id === 'restar' ? '-' :
+                                boton.id === 'multiplicar' ? '*' :
+                                boton.id === 'dividir' ? '/' : '';
+                    
+                    // Limpiamos operacionActual para que el siguiente clic añada a número 2
+                    operacionActual = '';
+                    pantalla.value = '';
+                    actualizarDisplayOperacion();
+                }
+                // Si pulsan el botón "igual"
+                else {
+                    // Evitamos igual si no hay nada escrito
+                    if (operacionActual === '') {
+                        return;
+                    }
+                    // Solo calculamos si hay operación y numero1 definidos
+                    if (operacion !== '' && numero1 !== '') {
+                        numero2 = operacionActual;
+                        
+                        // Mostramos la operación completa antes del resultado
+                        const simboloOperacion = getSimboloOperacion(operacion);
+                        operacionDisplay.textContent = `${numero1} ${simboloOperacion} ${numero2} =`;
+                        
+                        resultado = calcular(numero1, numero2, operacion);
+                        pantalla.value = resultado;
+                        
+                        // Marcamos que hemos completado una operación
+                        operacionCompletada = true;
+                        
+                        // Guardamos el resultado para posibles operaciones encadenadas
+                        numero1 = resultado.toString();
+                        operacionActual = '';
+                        operacion = '';
+                        
+                        // Después de un momento, limpiamos el display de operación
+                        setTimeout(() => {
+                            operacionDisplay.textContent = '';
+                        }, 2000);
+                    }
+                }
+            });
+        });
+        
+        // Al pulsar el botón igual, calculamos el resultado y lo mostramos en la pantalla.
+        btnIgual.addEventListener('click', () => {
+            // Comprobamos que no se realice una operación vacía.
+            if(operacionActual === '') {
+                return;
+            }
+            // Si hay una operación en curso, calculamos el resultado.
+            if(operacion !== '' && numero1 !== '') {
+                numero2 = operacionActual;
+                
+                // Mostramos la operación completa antes del resultado
+                const simboloOperacion = getSimboloOperacion(operacion);
+                operacionDisplay.textContent = `${numero1} ${simboloOperacion} ${numero2} =`;
+                
+                resultado = calcular(numero1, numero2, operacion);
+                pantalla.value = resultado;
+                
+                // Marcamos que hemos completado una operación
+                operacionCompletada = true;
+                
+                // Guardamos el resultado para posibles operaciones encadenadas
+                numero1 = resultado.toString();
+                operacionActual = '';
+                operacion = '';
+                
+                // Después de un momento, limpiamos el display de operación
+                setTimeout(() => {
+                    operacionDisplay.textContent = '';
+                }, 2000);
+            }
+        });
+
+        
+        // Al pulsar el botón limpiar, reiniciamos todos los valores.
+        btnLimpiar.addEventListener('click', () => {
+            // Reiniciamos todos los valores.
+            operacionActual = '';
+            numero1 = '';
+            numero2 = '';
+            resultado = '';
+            operacion = '';
+            operacionCompletada = false;
+            pantalla.value = '';
+            operacionDisplay.textContent = '';
+        });
+
+        // Función para realizar el cálculo según la operación seleccionada.
+        // Utilizamos parseFloat para asegurarnos de que los resultados sean números.
+        // Si se intenta dividir por cero, mostramos un mensaje de error.
+        // Retornamos el resultado de la operación.
+        function calcular(numero1, numero2, operacion) {
+            console.log(`Calculando: ${numero1} ${operacion} ${numero2}`);
+            if (numero1 === '' || numero2 === '' || operacion === '') {
+                alert('Error: Operación incompleta');
+                return '';
+            }
+            const n1 = parseFloat(numero1);
+            const n2 = parseFloat(numero2);
+            switch (operacion) {
+                case '+':
+                    return n1 + n2;
+                case '-':
+                    return n1 - n2;
+                case '*':
+                    return n1 * n2;
+                case '/':
+                    if (n2 === 0) {
+                        alert('Error: División por cero');
+                        return '';
+                    }
+                    return n1 / n2;
+                default:
+                    return '';
+            }
+        }
+    </script>
+</body>
+</html>
