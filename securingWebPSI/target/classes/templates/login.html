@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+  <h1>Página Login</h1>
+  <!-- Vamos a mostrar un error si el usuario no es válido... -->
+  <div  th:if="${param.error}">
+    El usuario o contraseña son incorrectos.
+  </div>
+  <div th:if="${param.logout}">
+    Sesión de usuario cerrada!
+  </div>
+  <!-- Por defecto Spring Security valida ejecutando el action -->
+  <form th:action="@{/login}" method="post">
+    <div>
+      El usuario o contraseña son incorrectos.
+      <label for="usuario">Usuario</label>
+      <input type="text" name="username" id="usuario">
+    </div>
+    <div>
+      <label for="password">Password</label>
+      <input type="text" name="password" id="password">
+    </div>
+    <div>
+      <button type="submit">Entrar</button>
+    </div>
+  </form>
+
+
+
+</body>
+</html>
