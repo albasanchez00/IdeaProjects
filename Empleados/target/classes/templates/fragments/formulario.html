@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario</title>
+</head>
+
+<body class="d-flex align-items-center" style="height: 100vh">
+<div class="container" th:fragment="formulario">
+    <div class="row justify-content-center w-100">
+        <h1 style="text-align: center; padding: 15px">Alta de Empleado</h1>
+        <div class="col-12">
+            <form class="row g-3 needs-validation form" th:action="@{/empleados/guardar}" th:objet="@{empleado}" method="get" novalidate>
+                <div class="col-md-4">
+                    <label for="validationServer01" class="form-label">Nombre</label>
+                    <input type="text" class="form-control" id="validationServer01" th:field="*{empleado.nombre}" required>
+                    <div class="invalid-feedback">
+                        Indica el nombre.
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label for="validationServer02" class="form-label">Apellidos</label>
+                    <input type="text" class="form-control" id="validationServer02" th:field="*{empleado.apellido}" required>
+                    <div class="valid-feedback">
+                        Indica tus apellidos.
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label for="validationServerUsername" class="form-label">DNI</label>
+                    <div class="input-group has-validation">
+                        <input type="text" class="form-control" id="validationServerUsername" aria-describedby="inputGroupPrepend" placeholder="12345678X" required>
+                        <div id="validationServerUsernameFeedback" class="invalid-feedback">
+                            Indica tu DNI.
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label for="validationServer03" class="form-label">Fecha Nacimiento</label>
+                    <input type="date" class="form-control" id="validationServer03" th:field="*{empleado.fNacimiento}" required>
+                    <div id="validationServer03Feedback" class="invalid-feedback">
+                        Indica tu fecha de nacimiento.
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label for="titulacion" class="form-label">Última titulación</label>
+                    <input type="text" class="form-control" id="titulacion" placeholder="Educación Secundaria" th:field="*{empleado.ultTitulacion}" required>
+                    <div id="validationCustom04Feedback" class="invalid-feedback">
+                        Indica tu última titulación.
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label for="nHijos" class="form-label">Nº de Hijos</label>
+                    <input type="text" class="form-control" id="nHijos" placeholder="0" th:field="*{empleado.nHijos}" required>
+                    <div id="validationServer07Feedback" class="invalid-feedback">
+                        Indica tu número de hijos.
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <label for="validationServer06" class="form-label">Puesto</label>
+                    <select class="form-select" id="validationServer06" th:field="*{empleado.puestos}" required>
+                        <option selected disabled  th:each="p:${puestos}" th:value="${p}" th:text="${p}" >Puestos...</option>
+                        <option>Directivo</option>
+                        <option>Administrativo</option>
+                        <option>Otro...</option>
+                    </select>
+                    <div id="validationServer06Feedback" class="invalid-feedback">
+                        Indica tu puesto de trabajo.
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="invalidCheck3" required>
+                        <label class="form-check-label" for="invalidCheck3">
+                            Acepte las condiciones para el alta.
+                        </label>
+                        <div class="invalid-feedback">
+                            Debe aceptar las condiciones del alta.
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <button class="btn btn-primary" type="submit">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

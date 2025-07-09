@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Cabecera Página</title>
+    <link rel="icon" th:href="@{/media/25-anios-ceat.png}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</head>
+<body>
+  <!--- Con el atributo de thymeleaf th:fragment="header" me permitirá llamar este archivo donde sea necesario.  --->
+  <nav class="navbar bg-body-tertiary" th:fragment="header">
+    <div class="container">
+      <a class="navbar-brand" href="#">
+        <img th:src="@{/media/25-anios-ceat.png}" width="170px" alt="Logo CEAT" class="d-inline-block align-text-top">
+        <div>Sistema de Recursos Humanos</div>
+      </a>
+    </div>
+  </nav>
+</body>
+</html>
