@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Renfe</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <script src="./js/script.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1>Renfe</h1>
+    </header>
+    <main>
+        <section>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Trenes al mejor precio</a></li>
+                    <img src="./image/line-vertical-icon.svg" alt="barra-separadora" class="icon-separador">
+                    <li><a href="https://renfeviajes.renfe.com/?utm_source=renfe&utm_medium=referral&utm_campaign=buscador">Renfe Viajes</a></li>
+                </ul>
+            </nav>
+            <form action="index.html" method="get">
+                <section class="section-form">
+                    <section class="section-form-1">
+                        <div class="origin-destination">
+                            <p>
+                                <img src="./image/route-ida.png" alt="origen">
+                                <label for="origen">Origen:</label>
+                                <input type="text" id="origen" name="origen">
+                            </p>
+                            <p>
+                                <img src="./image/line-vertical-icon.svg" alt="barra-separadora" class="icon-separador">
+                            </p>
+                            <p>
+                                <img src="./image/route.png" alt="dsetino">
+                                <label for="destino">Destino:</label>
+                                <input type="text" id="destino" name="destino">
+                            </p>
+                        </div>
+                    </section>
+                    <section class="section-form-2">
+                        <div class="origin-destination">
+                            <p>
+                                <img class="calendar" src="./image/calendar-icon.svg" alt="fEntrada">
+                                <label for="entrada">Dia de llegada:</label>
+                                <input type="date" id="fechaLlegada" name="entrada">
+                            </p>
+                            <p>
+                                <img class="calendar" src="./image/calendar-icon.svg" alt="fSalida">
+                                <label for="">Dia de salida:</label>
+                                <input type="date" id="fechaIda" name="salida">
+                            </p>
+                        </div>
+                        <div class="origin-pasajeros">
+                            <p>
+                                <img src="./image/user.png" alt="person-icon">
+                                <label for="pasajero">Pasajeros:</label>
+                                <select name="pasajero" id="pasajeros">
+                                    <option value="adultos">Adultos</option>
+                                    <option value="ninios">Niños</option>
+                                    <option value="bebesN">Bebés/Niños</option>
+                                </select>
+                                <select name="numeroPasajeros" id="nPasajeros">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="5">6</option>
+                                    <option value="5">7</option>
+                                    <option value="5">8</option>
+                                    <option value="5">9</option>
+                                    <option value="5">10</option>
+                                </select>
+                            </p>
+                        </div>
+                        <p>
+                            <button id="billetes" class="btn-billete" name="buscarBillete">Buscar Billete</button>
+                        </p>
+                    </section>
+                </section>
+                <section class="section-descuento">
+                    <!-- Botón para abrir el modal con la estructura de Renfe -->
+                    <img src="./image/porcentaje-icono.svg" class="icon" alt="">
+                    <button type="button" id="openModal" class="btn-descuento">
+                    <label>¿Tienes un código promocional?</label>
+                    </button>
+        
+                    <!-- Estructura del modal -->
+                    <div id="discountModal" class="modal">
+                    <div class="modal-content">
+                        <!-- Cambiamos la clase a "close" para que coincida con el JS o bien actualizamos el JS -->
+                        <span class="close" id="close">&times;</span>
+                        <h2>Introduce tu código de descuento</h2>
+                        <input type="text" id="discountCode" placeholder="Código de descuento" />
+                        <!-- Botón interno en el modal con estructura similar -->
+                        <button type="button" id="applyDiscount">
+                        <label>Aplicar</label>
+                        </button>
+                    </div>
+                    </div>
+                </section>
+            </form>
+        </section>
+
+    </main>
+    
+</body>
+</html>
