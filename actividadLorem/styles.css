@@ -1,0 +1,104 @@
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  background-image: linear-gradient(to top, #3c1178, #694d9c, #9786bf, #c9c2e0, #ffffff);
+}
+
+header {
+  background-color: #3c1178;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+}
+
+nav {
+  background: #f4f4f4;
+  padding: 1rem;
+  
+}
+
+main {
+
+  display: flex;
+  flex: 1;
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+aside {
+  background-image: linear-gradient(to right top, #d3d3d3, #dedede, #e9e9e9, #f4f4f4, #ffffff);  
+  padding: 1rem;
+  border-left: 1px solid #ccc;
+}
+.nav_ul{
+    list-style: none;
+    a{
+        text-decoration: none;
+        color: #694d9c;
+    }
+}
+.nav_ul a:hover{
+    color: #3c1178;
+}
+
+
+/* Estructura del layout */
+.container {
+  display: grid;
+  grid-template-columns: 1fr 3fr 1fr;
+  gap: 1rem;
+  padding: 1rem;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.container nav {
+  grid-column: 1;
+  background-image: linear-gradient(to right top, #d3d3d3, #dedede, #e9e9e9, #f4f4f4, #ffffff);
+}
+
+.container main {
+  grid-column: 2;
+  background-image: linear-gradient(to right top, #d3d3d3, #dedede, #e9e9e9, #f4f4f4, #ffffff);
+}
+
+.container aside {
+  grid-column: 3;
+}
+
+footer {
+  background-color: #3c1178;
+  color: white;
+  text-align: center;
+  padding: 1rem;
+  margin-top: auto;
+}
+
+/* Indicadores de etiquetas semánticas */
+nav {
+  border: 2px solid #3c1178;
+  border-radius: 25px;
+}
+
+main {
+  border-radius: 25px;
+  border: 2px solid #3c1178;
+}
+
+aside {
+  border-radius: 25px;
+  border: 2px solid #3c1178;
+}
